@@ -1,30 +1,19 @@
 import React from 'react';
 
 const ValidationDisplay = ({ condition, value }) => {
-    let errorMessage;
+    const errorMessages = {
+        match: 'Passwords do not match!',
+        length: 'Password needs a minimum length of 6 characters',
+        number: 'Password needs at least 1 number',
+        capital: 'Password needs at least 1 uppercase character',
+        lower: 'Password needs at least 1 lowercase character',
+        specialChar: 'Password needs at least 1 special character'
+    };
 
-    if (condition === 'match' && !value) {
-        errorMessage = 'Passwords do not match!';
-    }
+    let errorMessage = null;
 
-    if (condition === 'length' && !value) {
-        errorMessage = 'Password needs a min length of 6 characters';
-    }
-
-    if (condition === 'number' && !value) {
-        errorMessage = 'Password needs at least 1 number';
-    }
-
-    if (condition === 'capital' && !value) {
-        errorMessage = 'Password needs at least 1 uppercase character';
-    }
-
-    if (condition === 'lower' && !value) {
-        errorMessage = 'Password needs at least 1 lowercase character';
-    }
-
-    if (condition === 'specialChar' && !value) {
-        errorMessage = 'Password needs at least 1 special character';
+    if (value === false) {
+        errorMessage = errorMessages[condition];
     }
 
     return (
