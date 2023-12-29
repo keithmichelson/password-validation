@@ -7,7 +7,7 @@ const PasswordInput = ({ value, onChange, placeholder }) => {
             value={value}
             onChange={onChange}
             placeholder={placeholder}
-            className="border border-black p-2"
+            className="border border-black p-2 w-full"
         />
     );
 };

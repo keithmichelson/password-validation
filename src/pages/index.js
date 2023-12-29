@@ -4,6 +4,7 @@ import PasswordInput from '@/components/PasswordInput'
 import CustomButton from '@/components/CustomButton'
 import { useState } from 'react'
 import { checkPassword } from '@/utils/checkPasswordUtil'
+import ValidationDisplay from '@/components/ValidationDisplay'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,6 +12,7 @@ export default function Home() {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMatch, setPasswordMatch] = useState(false);
   const [validation, setValidation] = useState({
     match: false,
     length: false,
@@ -32,16 +34,19 @@ export default function Home() {
 
   const handleSubmit = () => {
     setSubmitted(true);
-    // passwords have to match before any conditions can be set true, passing arguments through as well to show values
     if (password === confirmPassword) {
       setValidation(checkPassword(password, confirmPassword));
+      setPasswordMatch(true);
+    } else {
+      setPasswordMatch(false);
+      setValidation({});
     }
   }
 
   return (
 
-    <div className="flex items-center justify-center h-screen">
-      <div className="border bg-gray-100 p-16 rounded-3xl">
+    <div className="flex items-center justify-center mt-20">
+      <div className="border bg-gray-100 p-16 rounded-3xl w-120">
         <div>
           <div className="pb-4 text-xl">Enter Password</div>
           <div className="mb-2">
@@ -64,6 +69,13 @@ export default function Home() {
             submitted &&
             <div className='py-5'>
               {
+                !passwordMatch && (
+                  <div className='text-red-500'>
+                    Passwords Don't Match!
+                  </div>
+                )
+              }
+              {
                 !validation.success &&
                 <div>
                   <div className='text-red-500'>
@@ -71,9 +83,7 @@ export default function Home() {
                   </div>
                   <ul>
                     {Object.entries(validation).map(([key, value]) => (
-                      <li key={key}>
-                        {key}: {value ? 'true' : 'false'}
-                      </li>
+                      <ValidationDisplay key={key} condition={key} value={value} />
                     ))}
                   </ul>
                 </div>
@@ -83,7 +93,8 @@ export default function Home() {
                   <div className='text-green-500'>
                     Success! All conditions were met!
                   </div>
-                )}
+                )
+              }
             </div>
           }
         </div>
