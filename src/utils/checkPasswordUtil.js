@@ -1,6 +1,6 @@
-export function checkPassword(passwordString, passwordConfirmString) {
+export function checkPassword(password, confirmPassword) {
 
-    const stringCheckLength = 6;
+    const minPasswordLength = 6;
 
     let confirmation = {
         match: false,
@@ -12,24 +12,12 @@ export function checkPassword(passwordString, passwordConfirmString) {
         success: false
     }
 
-    if (passwordString === passwordConfirmString) {
-        confirmation.match = true;
-    }
-    if (passwordString.length >= stringCheckLength) {
-        confirmation.length = true;
-    }
-    if (/[0-9]/.test(passwordString)) {
-        confirmation.number = true;
-    }
-    if (/[A-Z]/.test(passwordString)) {
-        confirmation.capital = true;
-    }
-    if (/[a-z]/.test(passwordString)) {
-        confirmation.lower = true;
-    }
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(passwordString)) {
-        confirmation.specialChar = true;
-    }
+    confirmation.match = password === confirmPassword;
+    confirmation.length = password.length >= minPasswordLength;
+    confirmation.number = /[0-9]/.test(password);
+    confirmation.capital = /[A-Z]/.test(password);
+    confirmation.lower = /[a-z]/.test(password);
+    confirmation.specialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
     confirmation.success = Object.keys(confirmation)
         .filter((key) => key !== 'success')

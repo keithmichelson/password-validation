@@ -32,7 +32,7 @@ export default function Home() {
 
   const handleSubmit = () => {
     setSubmitted(true);
-    // passwords have to match before any conditions can be set true, passing through as well to show value
+    // passwords have to match before any conditions can be set true, passing arguments through as well to show values
     if (password === confirmPassword) {
       setValidation(checkPassword(password, confirmPassword));
     }
